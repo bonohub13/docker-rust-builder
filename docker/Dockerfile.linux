@@ -1,0 +1,15 @@
+FROM rust:latest
+
+RUN apt update && apt upgrade -y
+RUN apt install -y \
+    cmake
+
+RUN rustup update
+
+WORKDIR /app
+
+COPY Cargo.toml ./
+
+RUN cargo update
+
+CMD ["cargo", "build"]
