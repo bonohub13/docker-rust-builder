@@ -1,6 +1,15 @@
 # Docker Rust Builder
 Simple tool to build your Rust project inside docker containers!
 
+## Integration
+If you want to integrate a command to clone this repository to your workspace, \
+run the command below.
+``` bash
+    curl https://github.com/bonohub13/docker-rust-builder/blob/main/setup.sh >> ~/.bashrc
+```
+
+This will add `rust-builder` command.
+
 ## How to use
 - Building (using Docker):
     1. Build docker image
