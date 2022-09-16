@@ -1,7 +1,7 @@
 SHELL := bash
 CC := $(shell which cargo)
 PWD := $(shell pwd)
-PROJECT_NAME := ""
+PROJECT_NAME := $(shell pwd | awk -F/ '{print$NF}')
 BIN := ""
 
 all: build run
