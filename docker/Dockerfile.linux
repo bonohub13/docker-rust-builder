@@ -10,6 +10,8 @@ WORKDIR /app
 
 COPY Cargo.toml ./
 
-RUN cargo update
+RUN grep '[dependencies]' \
+    && cargo update \
+    || echo "Skipping cargo update..."
 
 CMD ["cargo", "build"]
