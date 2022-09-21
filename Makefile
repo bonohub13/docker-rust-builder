@@ -2,6 +2,8 @@ SHELL := bash
 CC := $(shell which cargo)
 PWD := $(shell pwd)
 PROJECT_NAME := $(shell pwd | sed "s#.*/##")
+DOCKER_IMAGE_NAME := $(shell pwd | sed "s#.*/##" | tr [:upper:] [:lower:])
+BIN := ${PROJECT_NAME}
 
 all: build run
 
@@ -15,17 +17,17 @@ fmt:
 build: fmt clean
 	mkdir -p bin
 	$(CC) build
-	cp ./target/debug/${PROJECT_NAME} bin
+	cp ./target/debug/${BIN} bin
 
 run:
-	./bin/${PROJECT_NAME}
+	./bin/${BIN}
 
 rebuild-linux-image:
 	cp Cargo.toml docker
-	docker build . -t ${PROJECT_NAME}/linux -f docker/Dockerfile.linux --no-cache
+	docker build . -t ${DOCKER_IMAGE_NAME}/linux -f docker/Dockerfile.linux --no-cache
 	rm docker/Cargo.toml
 
 docker-build: fmt clean
 	mkdir -p bin
-	docker run --rm -it -v $(shell pwd):/app ${PROJECT_NAME}/linux
-	cp ./target/debug/${PROJECT_NAME} bin
+	docker run --rm -it -v $(shell pwd):/app ${DOCKER_IMAGE_NAME}/linux
+	cp ./target/debug/${BIN} bin
