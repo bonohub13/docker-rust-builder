@@ -10,7 +10,7 @@ WORKDIR /app
 
 ADD docker/build.tar ./
 
-RUN grep '\[dependencies\]' \
+RUN grep '\[dependencies\]' Cargo.toml \
     && cargo build \
     || echo "Skipping cargo update..."
 
