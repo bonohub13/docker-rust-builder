@@ -8,10 +8,10 @@ RUN rustup update
 
 WORKDIR /app
 
-COPY Cargo.toml ./
+ADD docker/build.tar ./
 
 RUN grep '\[dependencies\]' \
-    && cargo update \
+    && cargo build \
     || echo "Skipping cargo update..."
 
 CMD ["cargo", "build"]

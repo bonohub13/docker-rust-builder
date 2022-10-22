@@ -4,6 +4,9 @@ PWD := $(shell pwd)
 PROJECT_NAME := $(shell pwd | sed "s#.*/##")
 DOCKER_IMAGE_NAME := $(shell pwd | sed "s#.*/##" | tr [:upper:] [:lower:])
 BIN := ${PROJECT_NAME}
+SRC_DIR := src
+LIB_DIR := 
+CARGO_TOML := Cargo.toml
 
 all: build run
 
@@ -23,9 +26,9 @@ run:
 	./bin/${BIN}
 
 rebuild-linux-image:
-	cp Cargo.toml docker
+	tar cvf docker/build.tar ${SRC_DIR} ${CARGO_TOML} ${LIB_DIR}
 	docker build . -t ${DOCKER_IMAGE_NAME}/linux -f docker/Dockerfile.linux --no-cache
-	rm docker/Cargo.toml
+	rm docker/build.tar
 
 docker-build: fmt clean
 	mkdir -p bin
