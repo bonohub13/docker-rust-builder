@@ -25,6 +25,11 @@ build: fmt clean
 run:
 	./bin/${BIN}
 
+build-linux-image:
+	cp Cargo.toml docker
+	docker build . -t ${PROJECT_NAME}/linux -f docker/Dockerfile.linux
+	rm docker/Cargo.toml
+
 rebuild-linux-image:
 	tar cvf docker/build.tar ${SRC_DIR} ${CARGO_TOML} ${LIB_DIR}
 	docker build . -t ${DOCKER_IMAGE_NAME}/linux -f docker/Dockerfile.linux --no-cache
