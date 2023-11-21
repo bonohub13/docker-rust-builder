@@ -31,7 +31,7 @@ build-linux-image:
 	rm docker/Cargo.toml
 
 rebuild-linux-image:
-	tar cvf docker/build.tar ${SRC_DIR} ${CARGO_TOML} ${LIB_DIR}
+	cp Cargo.toml docker
 	docker build . -t ${DOCKER_IMAGE_NAME}/linux -f docker/Dockerfile.linux --no-cache
 	rm docker/build.tar
 

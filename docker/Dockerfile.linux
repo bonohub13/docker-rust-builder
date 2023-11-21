@@ -8,7 +8,7 @@ RUN rustup update
 
 WORKDIR /app
 
-ADD docker/build.tar ./
+ADD docker/Cargo.toml ./
 
 RUN grep '\[dependencies\]' Cargo.toml \
     && cargo build \
