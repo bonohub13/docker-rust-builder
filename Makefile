@@ -17,13 +17,14 @@ clean:
 fmt:
 	$(CC) fmt
 
-build: fmt clean
-	mkdir -p bin
+build: fmt
 	$(CC) build
-	cp ./target/debug/${BIN} bin
+
+release: fmt
+	$(CC) build --release
 
 run:
-	./bin/${BIN}
+	./target/debug/${BIN}
 
 build-linux-image:
 	cp Cargo.toml docker
@@ -33,9 +34,20 @@ build-linux-image:
 rebuild-linux-image:
 	cp Cargo.toml docker
 	docker build . -t ${DOCKER_IMAGE_NAME}/linux -f docker/Dockerfile.linux --no-cache
-	rm docker/build.tar
+	rm docker/Cargo.toml
 
-docker-build: fmt clean
-	mkdir -p bin
-	docker run --rm -it -v $(shell pwd):/app ${DOCKER_IMAGE_NAME}/linux
-	cp ./target/debug/${BIN} bin
+docker-build:
+	docker run --rm -it -v $(shell pwd):/app ${DOCKER_IMAGE_NAME}/linux bash \
+		-c "make build"
+
+docker-release:
+	docker run --rm -it -v $(shell pwd):/app ${DOCKER_IMAGE_NAME}/linux bash \
+		-c "make release"
+
+docker-debug:
+	docker run --rm -it -v $(shell pwd):/app ${DOCKER_IMAGE_NAME}/linux bash
+
+docker-run: docker-build run
+
+docker-run-release: docker-release
+	./target/release/${BIN}
