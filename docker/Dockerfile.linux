@@ -5,6 +5,7 @@ RUN apt install -y \
     cmake
 
 RUN rustup update
+RUN rustup component add rustfmt
 
 WORKDIR /app
 
@@ -13,5 +14,3 @@ ADD docker/Cargo.toml ./
 RUN grep '\[dependencies\]' Cargo.toml \
     && cargo build \
     || echo "Skipping cargo update..."
-
-CMD ["cargo", "build"]
